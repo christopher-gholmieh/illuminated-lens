@@ -9,9 +9,10 @@
 
 
 // Library:
-#include <stdlib.h>
+#include <stdint.h>
 #include <string.h>
 
+#include <stdlib.h>
 #include <stdio.h>
 
 
@@ -51,6 +52,48 @@ vector_t* initialize_vector(size_t bytes) {
 
     // Bytes:
     vector->bytes = bytes;
+}
+
+/**
+ * @note The vector is defined to only have a capacity that is a multiple of 2 for simplicity.
+ * @note You could also worry about the maximum limit, e.g if parameter desired_capacity is extremely high, but it's unlikely.
+ */
+uint8_t vector_reserve(vector_t* vector, size_t desired_capacity) {
+    // Validation:
+    if (vector == NULL) {
+        // Message:
+        fprintf(stderr, "[!] Vector parameter passed into vector_reserve is NULL!\n");
+
+        // Logic:
+        return 0;
+    }
+
+    // Variables (Assignment):
+    // Capacity:
+    size_t updated_capacity = VECTOR_INITIAL_CAPACITY;
+    
+    while (updated_capacity < desired_capacity) {
+        updated_capacity <<= 1;
+    }
+
+    // Pointer:
+    void* updated_pointer = realloc(vector->pointer, updated_capacity * vector->bytes);
+
+    if (updated_pointer == NULL) {
+        // Message:
+        fprintf(stderr, "[!] Failed to reallocate memory for vector->pointer of size %zu bytes!", updated_capacity * vector->bytes);
+
+        // Logic:
+        return 0;
+    } else {
+        vector->pointer = updated_pointer;
+    }
+
+    // Capacity:
+    vector->capacity = updated_capacity;
+
+    // Logic:
+    return 1;
 }
 
 void vector_free(vector_t* vector, void (*free_callback)(void*)) {

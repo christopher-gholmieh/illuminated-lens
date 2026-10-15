@@ -9,6 +9,7 @@
 // Headers:
 // Library:
 #include <stdlib.h>
+#include <stdint.h>
 
 // Structures:
 typedef struct {
@@ -27,6 +28,8 @@ typedef struct {
 
 // Prototypes:
 vector_t* initialize_vector(size_t bytes);
+
+uint8_t   vector_reserve(vector_t* vector, size_t desired_capacity);
 
 void      vector_free(vector_t* vector, void (*free_callback)(void*));
 
