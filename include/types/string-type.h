@@ -26,6 +26,8 @@ typedef struct {
 // Prototypes:
 string_t* initialize_string(void);
 
+uint8_t   string_reserve(string_t* string, size_t capacity);
+
 void      string_free(string_t* string);
 
 // Guard:

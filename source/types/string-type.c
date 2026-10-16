@@ -56,6 +56,54 @@ string_t* initialize_string(void) {
     return string;
 }
 
+uint8_t string_reserve(string_t* string, size_t capacity) {
+    // Validation:
+    if (string == NULL) {
+        // Message:
+        fprintf(stderr, "[!] String parameter passed to string_reserve is NULL!\n");
+
+        // Logic:
+        return 0;
+    }
+
+    if (string->capacity >= capacity) {
+        // Message:
+        fprintf(stderr, "[!] Capacity parameter passed into string_reserve must be greater than the current capacity!\n");
+
+        // Logic:
+        return 0;
+    }
+
+    // Variables (Assignment):
+    // Capacity:
+    size_t updated_capacity = STRING_INITIAL_CAPACITY;
+    
+    while (updated_capacity < capacity) {
+        updated_capacity <<= 1;
+    }
+
+    // Buffer:
+    void* updated_buffer = realloc(string->buffer, updated_capacity);
+
+    if (updated_buffer == NULL) {
+        // Message:
+        fprintf(stderr, "[!] Failed to reallocate memory for string->buffer of size %zu bytes!", updated_capacity);
+
+        // Logic:
+        return 0;
+    } else {
+        // Variables (Assignment):
+        // Buffer:
+        string->buffer = updated_buffer;
+    }
+
+    // Capacity:
+    string->capacity = updated_capacity;
+
+    // Logic:
+    return 1;
+}
+
 void string_free(string_t* string) {
     // Validation:
     if (string == NULL) {
