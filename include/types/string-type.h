@@ -25,8 +25,10 @@ typedef struct {
 
 // Prototypes:
 string_t* initialize_string(void);
+string_t* initialize_string_from(const char* buffer);
 
 uint8_t   string_reserve(string_t* string, size_t capacity);
+uint8_t   string_compare(string_t* string, string_t* other);
 
 void      string_free(string_t* string);
 

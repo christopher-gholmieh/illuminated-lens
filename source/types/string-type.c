@@ -2,10 +2,10 @@
 // Headers:
 
 // Utilities:
-#include "include/utilities/memory-utilities.h"
+#include "utilities/memory-utilities.h"
 
 // Types:
-#include "include/types/string-type.h"
+#include "types/string-type.h"
 
 
 // Library:
@@ -48,6 +48,55 @@ string_t* initialize_string(void) {
         // Logic:
         return NULL;
     }
+
+    // Terminator:
+    string->buffer[string->length] = '\0';
+
+    // String:
+    return string;
+}
+
+string_t* initialize_string_from(const char* buffer) {
+    // Validation:
+    if (buffer == NULL) {
+        // Message:
+        fprintf(stderr, "[!] Buffer parameter passed to initialize_string_from is NULL!\n");
+
+        // Logic:
+        return NULL;
+    }
+
+    // Variables (Assignment):
+    // String:
+    string_t* string = initialize_string();
+
+    if (string == NULL) {
+        // Message:
+        fprintf(stderr, "[!] Failed to initialize string!\n");
+
+        // Logic:
+        return NULL;
+    }
+
+    // Length:
+    string->length = strlen(buffer);
+
+    // Capacity:
+    if (string->length > string->capacity) {
+        // Variables (Assignment):
+        // Capacity:
+        size_t capacity = string->capacity;
+
+        while (string->length > capacity) {
+            capacity <<= 1;
+        }
+
+        // Memory:
+        string_reserve(string, capacity);
+    }
+
+    // Buffer:
+    memcpy(string->buffer, buffer, string->length);
 
     // Terminator:
     string->buffer[string->length] = '\0';
@@ -102,6 +151,44 @@ uint8_t string_reserve(string_t* string, size_t capacity) {
 
     // Logic:
     return 1;
+}
+
+uint8_t string_compare(string_t* string, string_t* other) {
+    // Validation:
+    if (string == NULL) {
+        // Message:
+        fprintf(stderr, "[!] String parameter passed to string_compare is NULL!\n");
+
+        // Logic:
+        return 0;
+    }
+
+    if (string->buffer == NULL) {
+        // Message:
+        fprintf(stderr, "[!] String parameter passed to string_compare has a NULL buffer!\n");
+
+        // Logic:
+        return 0;
+    }
+
+    if (other == NULL) {
+        // Message:
+        fprintf(stderr, "[!] Other parameter passed to string_compare is NULL!\n");
+
+        // Logic:
+        return 0;
+    }
+
+    if (other->buffer == NULL) {
+        // Message:
+        fprintf(stderr, "[!] Other parameter passed to string_compare has a NULL buffer!\n");
+
+        // Logic:
+        return 0;
+    }
+
+    // Logic:
+    return (strcmp(string->buffer, other->buffer) == 0);
 }
 
 void string_free(string_t* string) {
