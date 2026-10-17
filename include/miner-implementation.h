@@ -8,5 +8,8 @@ typedef struct {
 
 } miner_t;
 
+// Prototypes:
+miner_t* initialize_miner(void);
+
 // Guard:
 #endif /** MINER_IMPLEMENTATION_H */

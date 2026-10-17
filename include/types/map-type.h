@@ -7,13 +7,22 @@
 // Library:
 #include <stdlib.h>
 
+// Types:
+#include "types/string-type.h"
+
 // Structures:
 typedef struct {
     /* Capacity: */
     size_t capacity;
 
+    /* Values: */
+    void** values;
+
     /* Length: */
     size_t length;
+
+    /* Keys: */
+    string_t** keys;
 } map_t;
 
 // Guard:

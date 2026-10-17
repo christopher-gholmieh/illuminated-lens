@@ -40,6 +40,17 @@ interpreter_t* initialize_interpreter(int argument_count, char** argument_vector
     return interpreter;
 }
 
+void interpreter_process(interpreter_t* interpreter) {
+    // Validation:
+    if (interpreter == NULL) {
+        // Message:
+        fprintf(stderr, "[!] Interpreter parameter passed to interpreter_process is NULL!\n");
+
+        // Logic:
+        return;
+    }
+}
+
 void interpreter_free(interpreter_t* interpreter) {
     // Validation:
     if (interpreter == NULL) {
